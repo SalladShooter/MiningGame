@@ -5,6 +5,10 @@ from rock import Rock
 from text import Text
 import config
 import random as rand
+import os
+
+def clear():
+    os.system('cls' if os.name=='nt' else 'clear')
 
 pg.init()
 screen = pg.display.set_mode((480, 368))
@@ -37,6 +41,8 @@ hold_duration = 50
 fade_timer = 0
 
 wiggle_frame = 0
+
+clear()
 
 while running:
     for event in pg.event.get():
