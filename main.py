@@ -29,7 +29,7 @@ while running:
         pickaxe.animate(frame_duration, [0, 0], [2, 2])
         if pickaxe.check_frame([2, 2]):
             canAnimate = False
-    elif]:
+    else:
         pickaxe.animate(frame_duration, [0, 0], [0, 0])
     
     pickaxe.draw(screen)
