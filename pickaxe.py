@@ -3,9 +3,10 @@ from spritesheet import Spritesheet
 from typing import Tuple
 
 class Pickaxe:
-    def __init__(self):
+    def __init__(self, size_multiplier):
+        self.size_multiplier = size_multiplier
         self.last_frame_time = pg.time.get_ticks()
-        self.spritesheet = Spritesheet("images/pickaxe.png", [16, 16], [0, 0], [64, 64])
+        self.spritesheet = Spritesheet("images/pickaxe.png", [16, 16], [0, 0], [16 * self.size_multiplier, 16 * self.size_multiplier])
         self.frame_row = 0
         self.frame_col = 0
         self.frame = [1, 1]
@@ -42,4 +43,4 @@ class Pickaxe:
         return False
 
     def draw(self, screen):
-        screen.blit(self.sprite, (50, 50))
+        screen.blit(self.sprite, (screen.get_width() // 2 - ((16 * self.size_multiplier) // 2), screen.get_height() // 2 - ((16 * self.size_multiplier) // 2)))

@@ -9,8 +9,9 @@ clock = pg.time.Clock()
 running = True
 
 frame_duration = 50
+size_multiplier = 4
 
-pickaxe = Pickaxe()
+pickaxe = Pickaxe(size_multiplier)
 
 canAnimate = False
 
