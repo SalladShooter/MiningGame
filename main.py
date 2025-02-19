@@ -1,6 +1,7 @@
 import pygame as pg
 import time
 from pickaxe import Pickaxe
+from rock import Rock
 
 pg.init()
 screen = pg.display.set_mode((480, 368))
@@ -12,6 +13,7 @@ frame_duration = 50
 size_multiplier = 4
 
 pickaxe = Pickaxe(size_multiplier)
+rock = Rock(size_multiplier)
 
 canAnimate = False
 
@@ -30,9 +32,11 @@ while running:
         pickaxe.animate(frame_duration, [0, 0], [2, 2])
         if pickaxe.check_frame([2, 2]):
             canAnimate = False
+            rock.animate(frame_duration * 4, [0, 0], [3, 1])
     else:
         pickaxe.animate(frame_duration, [0, 0], [0, 0])
     
+    rock.draw(screen)
     pickaxe.draw(screen)
 
     pg.display.flip()
