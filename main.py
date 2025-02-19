@@ -4,7 +4,7 @@ from pickaxe import Pickaxe
 
 pg.init()
 screen = pg.display.set_mode((480, 368))
-pg.display.set_caption('Rougelite Game')
+pg.display.set_caption('Mining Game')
 clock = pg.time.Clock()
 running = True
 
