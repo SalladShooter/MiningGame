@@ -11,7 +11,7 @@ class Animate():
         self.sprite = self.spritesheet.get_sprite((self.frame_row, self.frame_col))
         
     def animate(self, frame_duration, from_frames: Tuple[int, int], to_frames: Tuple[int, int]):
-        self.to_frames = [to_frames[0]+1, to_frames[1]+1]
+        self.to_frames = [to_frames[0], to_frames[1]]
         self.from_frames = from_frames
         self.frame_row = self.frame_row + self.from_frames[0] 
         self.frame_col = self.frame_col + self.from_frames[1]
@@ -35,6 +35,6 @@ class Animate():
         self.frame = [self.frame_col, self.frame_row]
         
     def check_frame(self, frames: Tuple[int, int]):
-        if self.frame == [frames[0]-1, frames[1]-1]:
+        if self.frame == [frames[0], frames[1]]:
             return True
         return False

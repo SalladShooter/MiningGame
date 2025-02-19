@@ -2,6 +2,7 @@ import pygame as pg
 import time
 from pickaxe import Pickaxe
 from rock import Rock
+from text import Text
 import config
 import random as rand
 
@@ -19,6 +20,20 @@ rock = Rock(size_multiplier)
 
 canAnimate = False
 
+inventory = ['']
+
+text = Text()
+
+item_added = False
+
+fade_in = False
+fade_out = False
+fade_in_duration = 1
+fade_out_duration = 100
+hold_duration = 50
+
+fade_timer = 0
+
 while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -31,18 +46,45 @@ while running:
     if mouse_buttons[0]:
         canAnimate = True
     if canAnimate:
-        pickaxe.animate(frame_duration, [0, 0], [2, 2])
+        pickaxe.animate(frame_duration, [0, 0], [3, 3])
         if pickaxe.check_frame([2, 2]):
             canAnimate = False
-            rock.animate(frame_duration * 4, [0, 0], [3, 1])
+            rock.animate(frame_duration, [0, 0], [4, 2])
+            if rock.check_frame([3, 1]) and not item_added:
+                inventory.append(config.ores[rand.randint(0, len(config.ores) - 1)])
+                item_added = True
+                fade_in = True
+                fade_out = False
+                fade_in = True
     else:
         pickaxe.animate(frame_duration, [0, 0], [0, 0])
-    
+
     rock.draw(screen)
     pickaxe.draw(screen)
+    
+    if item_added and fade_in:
+        fade_timer += 1
+        if fade_timer <= fade_in_duration:
+            text.update_fade(255, 0, hold_duration, item_added)
+        else:
+            fade_timer = 0
+            fade_in = False
+            fade_out = True
+
+    if fade_out:
+        fade_timer += 1
+        if fade_timer <= fade_out_duration:
+            text.update_fade(0, 10, hold_duration, item_added)
+        else:
+            fade_timer = 0
+            fade_out = False
+            if item_added:
+                item_added = False
+                fade_in = True
+
+    if inventory[len(inventory) - 1] != "":
+        text.render(screen, f"{config.font}", 30, f"+1 {inventory[len(inventory) - 1]}", True, [255, 255, 255], [16, 8])
 
     pg.display.flip()
 
     clock.tick(60)
-
-pg.quit()
