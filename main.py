@@ -2,6 +2,8 @@ import pygame as pg
 import time
 from pickaxe import Pickaxe
 from rock import Rock
+import config
+import random as rand
 
 pg.init()
 screen = pg.display.set_mode((480, 368))
