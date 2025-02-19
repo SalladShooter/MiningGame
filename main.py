@@ -24,6 +24,8 @@ inventory = ['']
 
 text = Text()
 
+font_size = 30
+
 item_added = False
 
 fade_in = False
@@ -33,6 +35,8 @@ fade_out_duration = 100
 hold_duration = 50
 
 fade_timer = 0
+
+wiggle_frame = 0
 
 while running:
     for event in pg.event.get():
@@ -50,12 +54,19 @@ while running:
         if pickaxe.check_frame([2, 2]):
             canAnimate = False
             rock.animate(frame_duration, [0, 0], [4, 2])
+            if wiggle_frame < 1:
+                rock.wiggle()
+                wiggle_frame += 1
+            else:
+                rock.reset_wiggle()
+                wiggle_frame = 0
             if rock.check_frame([3, 1]) and not item_added:
                 inventory.append(config.ores[rand.randint(0, len(config.ores) - 1)])
+                rock.reset_wiggle()
                 item_added = True
                 fade_in = True
                 fade_out = False
-                fade_in = True
+
     else:
         pickaxe.animate(frame_duration, [0, 0], [0, 0])
 
@@ -83,7 +94,7 @@ while running:
                 fade_in = True
 
     if inventory[len(inventory) - 1] != "":
-        text.render(screen, f"{config.font}", 30, f"+1 {inventory[len(inventory) - 1]}", True, [255, 255, 255], [16, 8])
+        text.render(screen, config.font, font_size, f"+1 {inventory[len(inventory) - 1]}", True, [255, 255, 255], [16, 8])
 
     pg.display.flip()
 
