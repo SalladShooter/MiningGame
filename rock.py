@@ -1,6 +1,5 @@
 import pygame as pg
 from spritesheet import Spritesheet
-from typing import Tuple
 from animate import Animate
 import random as rand
 

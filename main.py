@@ -3,6 +3,7 @@ import time
 from pickaxe import Pickaxe
 from rock import Rock
 from text import Text
+from shop import Shop
 import config
 import random as rand
 import os
@@ -21,6 +22,7 @@ size_multiplier = 4
 
 pickaxe = Pickaxe(size_multiplier)
 rock = Rock(size_multiplier)
+shop = Shop(size_multiplier)
 
 canAnimate = False
 
@@ -75,7 +77,10 @@ while running:
 
     else:
         pickaxe.animate(frame_duration, [0, 0], [0, 0])
-
+        
+    shop.animate()
+    shop.draw(screen, size_multiplier)
+    
     rock.draw(screen)
     pickaxe.draw(screen)
     
@@ -100,7 +105,7 @@ while running:
                 fade_in = True
 
     if inventory[len(inventory) - 1] != "":
-        text.render(screen, config.font, font_size, f"+1 {inventory[len(inventory) - 1]}", True, [255, 255, 255], [16, 8])
+        text.render(screen, config.font, font_size, f"+1 {inventory[len(inventory) - 1]}", True, [226, 243, 228], [16, 8])
 
     pg.display.flip()
 
