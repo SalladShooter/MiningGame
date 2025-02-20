@@ -27,15 +27,14 @@ shop = Shop(size_multiplier)
 tax_master = TaxMaster(size_multiplier)
 
 canAnimate = False
-
 inventory = ['']
-
 text = Text()
-
 font_size = 30
 
-item_added = False
+shop_text = Text()
+close_text = Text()
 
+item_added = False
 fade_in = False
 fade_out = False
 fade_in_duration = 1
@@ -43,8 +42,9 @@ fade_out_duration = 100
 hold_duration = 50
 
 fade_timer = 0
-
 wiggle_frame = 0
+
+shop_open = False
 
 clear()
 
@@ -52,12 +52,19 @@ while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+        if event.type == pg.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pg.mouse.get_pos()
+            shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * shop.size_multiplier) // 2), 8, 16 * shop.size_multiplier, 16 * shop.size_multiplier)
+            if shop_rect.collidepoint(mouse_x, mouse_y):
+                shop_open = not shop_open
+            elif shop_open:
+                shop_open = False
 
     screen.fill("black")
     
     mouse_buttons = pg.mouse.get_pressed()
     
-    if mouse_buttons[0]:
+    if mouse_buttons[0] and not shop_open:
         canAnimate = True
     if canAnimate:
         pickaxe.animate(frame_duration, [0, 0], [3, 3])
@@ -76,10 +83,9 @@ while running:
                 item_added = True
                 fade_in = True
                 fade_out = False
-
     else:
         pickaxe.animate(frame_duration, [0, 0], [0, 0])
-        
+
     shop.animate()
     shop.draw(screen, size_multiplier)
     
@@ -112,6 +118,20 @@ while running:
     if inventory[len(inventory) - 1] != "":
         text.render(screen, config.font, font_size, f"+1 {inventory[len(inventory) - 1]}", True, [226, 243, 228], [16, 8])
 
-    pg.display.flip()
+    if shop_open:
+        overlay = pg.Surface((480, 368))
+        overlay.set_alpha(255)
+        overlay.fill((0, 0, 0))
+        screen.blit(overlay, (0, 0))
+        
+        shop_text.alpha = 255
+        shop_font = "Shop Menu"
+        shop_text.render(screen, config.font, font_size, shop_font, True, [226, 243, 228], [screen.get_width() // 2 - 7*len(shop_font),  16])
 
+        close_text.alpha = 200
+        close_font = "Click Anywhere To Close"
+        close_text.render(screen, config.font, font_size, close_font, True, [226, 243, 228], [screen.get_width() // 2 - 7*len(close_font), screen.get_height() // 2])
+
+
+    pg.display.flip()
     clock.tick(60)
