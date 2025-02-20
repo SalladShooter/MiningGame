@@ -4,6 +4,7 @@ from pickaxe import Pickaxe
 from rock import Rock
 from text import Text
 from shop import Shop
+from tax_master import TaxMaster
 import config
 import random as rand
 import os
@@ -23,6 +24,7 @@ size_multiplier = 4
 pickaxe = Pickaxe(size_multiplier)
 rock = Rock(size_multiplier)
 shop = Shop(size_multiplier)
+tax_master = TaxMaster(size_multiplier)
 
 canAnimate = False
 
@@ -80,6 +82,9 @@ while running:
         
     shop.animate()
     shop.draw(screen, size_multiplier)
+    
+    tax_master.animate(frame_duration * 2.25, [0, 0], [2, 2])
+    tax_master.draw(screen)
     
     rock.draw(screen)
     pickaxe.draw(screen)
