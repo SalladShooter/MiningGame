@@ -27,12 +27,16 @@ shop = Shop(size_multiplier)
 tax_master = TaxMaster(size_multiplier)
 
 canAnimate = False
-inventory = ['']
+inventory = config.ores_inventory
 text = Text()
 font_size = 30
 
 shop_text = Text()
 close_text = Text()
+
+items_text = []
+for i in range(len(config.ores_list)):
+    items_text.append(Text())
 
 item_added = False
 fade_in = False
@@ -45,6 +49,8 @@ fade_timer = 0
 wiggle_frame = 0
 
 shop_open = False
+
+last_mined_ore = None
 
 clear()
 
@@ -78,7 +84,10 @@ while running:
                 rock.reset_wiggle()
                 wiggle_frame = 0
             if rock.check_frame([3, 1]) and not item_added:
-                inventory.append(config.ores[rand.randint(0, len(config.ores) - 1)])
+                mined_ore = config.ores_list[rand.randint(0, len(config.ores_list) - 1)]
+                config.ores_inventory[mined_ore] += 1
+                last_mined_ore = mined_ore
+                inventory = config.ores_inventory
                 rock.reset_wiggle()
                 item_added = True
                 fade_in = True
@@ -115,8 +124,13 @@ while running:
                 item_added = False
                 fade_in = True
 
-    if inventory[len(inventory) - 1] != "":
-        text.render(screen, config.font, font_size, f"+1 {inventory[len(inventory) - 1]}", True, [226, 243, 228], [16, 8])
+    if last_mined_ore:
+        text.render(screen, config.font, font_size, f"+1 {last_mined_ore}", True, [226, 243, 228], [16, 8])
+        
+    for i in range (len(config.ores_list)):
+        items_text[i].alpha = 255
+        inventory_item = inventory[config.ores_list[i]]
+        items_text[i].render(screen, config.font, font_size, f"{str(inventory_item)} {config.ores_list[i]}", True, [226, 243, 228], [16, (16*size_multiplier)+(i*18)])
 
     if shop_open:
         overlay = pg.Surface((480, 368))
