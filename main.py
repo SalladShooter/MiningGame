@@ -139,7 +139,7 @@ while running:
         items_text[i].alpha = 255
         inventory_item = inventory[config.ores_list[i]]
         text_x = 16
-        image_x = text_x + (len(str(inventory_item)) * 16) - (7 + i / 1.5)
+        image_x = text_x + (len(str(inventory_item)) * 16) - 4 // 1.5
         image_y = (16*size_multiplier) + (i*18) 
 
         items_text[i].render(screen, config.font, font_size, f"{inventory_item}", True, [226, 243, 228], [text_x, image_y - 8])
