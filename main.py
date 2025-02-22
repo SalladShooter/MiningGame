@@ -37,6 +37,14 @@ close_text = Text()
 items_text = []
 for i in range(len(config.ores_list)):
     items_text.append(Text())
+    
+ore_images = {}
+for ore in config.ores_list:
+    image_path = f"images/{ore.lower()}.png"
+    if os.path.exists(image_path):
+        ore_images[ore] = pg.image.load(image_path)
+    else:
+        print(f"Warning: Image {image_path} not found.")
 
 item_added = False
 fade_in = False
@@ -130,7 +138,15 @@ while running:
     for i in range (len(config.ores_list)):
         items_text[i].alpha = 255
         inventory_item = inventory[config.ores_list[i]]
-        items_text[i].render(screen, config.font, font_size, f"{str(inventory_item)} {config.ores_list[i]}", True, [226, 243, 228], [16, (16*size_multiplier)+(i*18)])
+        text_x = 16
+        image_x = text_x + (len(str(inventory_item)) * 16) - (7 + i / 1.5)
+        image_y = (16*size_multiplier) + (i*18) 
+
+        items_text[i].render(screen, config.font, font_size, f"{inventory_item}", True, [226, 243, 228], [text_x, image_y - 8])
+        
+        if config.ores_list[i] in ore_images:
+            screen.blit(ore_images[config.ores_list[i]], (image_x, image_y))
+
 
     if shop_open:
         overlay = pg.Surface((480, 368))

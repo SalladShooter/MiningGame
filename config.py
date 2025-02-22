@@ -1,10 +1,10 @@
 ores_inventory = {
-    "stone" : 0,
-    "iron" : 0,
-    "copper" : 0,
-    "gold" : 0,
-    "emerald" : 0,
-    "diamond" : 0,
+    "stone" : 10,
+    "iron" : 100,
+    "copper" : 1000,
+    "gold" : 10000,
+    "emerald" : 100000,
+    "diamond" : 1000000,
 }
 
 ores_list = [
