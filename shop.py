@@ -25,19 +25,20 @@ class Shop(Animate):
         super().__init__(self.spritesheet)
 
     def draw(self, screen):
-        mouse_x, mouse_y = pg.mouse.get_pos()
-        shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * self.size_multiplier) // 2), 8, 16 * self.size_multiplier, 16 * self.size_multiplier)
-
-        if shop_rect.collidepoint(mouse_x, mouse_y):
-            self.target_size = self.original_size * 1.1
-        else:
-            self.target_size = self.original_size
-
-        self.size_multiplier += (self.target_size - self.size_multiplier) * self.size_speed
-        self.spritesheet = Spritesheet("images/shop.png", [16, 16], [0, 0], [16 * self.size_multiplier, 16 * self.size_multiplier])
-        super().animate(0, [0, 0], [0, 0])
-
         if not self.open:
+            mouse_x, mouse_y = pg.mouse.get_pos()
+            shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * self.size_multiplier) // 2), 8, 16 * self.size_multiplier, 16 * self.size_multiplier)
+
+            if shop_rect.collidepoint(mouse_x, mouse_y):
+                self.target_size = self.original_size * 1.1
+            else:
+                self.target_size = self.original_size
+
+            self.size_multiplier += (self.target_size - self.size_multiplier) * self.size_speed
+            self.spritesheet = Spritesheet("images/shop.png", [16, 16], [0, 0], [16 * self.size_multiplier, 16 * self.size_multiplier])
+            super().animate(0, [0, 0], [0, 0])
+
+        
             screen.blit(self.sprite, (screen.get_width() // 2 - ((16 * self.size_multiplier) // 2), 8))
         
         if self.open:
@@ -93,19 +94,19 @@ class Shop(Animate):
 
             self.close_button_rect = close_button_rect
 
-            mouse_x, mouse_y = pg.mouse.get_pos()
-            shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * self.size_multiplier) // 2), 8, 16 * self.size_multiplier, 16 * self.size_multiplier)
-
-            if shop_rect.collidepoint(mouse_x, mouse_y):
-                self.target_size = self.original_size * 1.1
-            else:
-                self.target_size = self.original_size
-
-            self.size_multiplier += (self.target_size - self.size_multiplier) * self.size_speed
-            self.spritesheet = Spritesheet("images/shop.png", [16, 16], [0, 0], [16 * self.size_multiplier, 16 * self.size_multiplier])
-            super().animate(0, [0, 0], [0, 0])
-
             if not self.open:
+                mouse_x, mouse_y = pg.mouse.get_pos()
+                shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * self.size_multiplier) // 2), 8, 16 * self.size_multiplier, 16 * self.size_multiplier)
+
+                if shop_rect.collidepoint(mouse_x, mouse_y):
+                    self.target_size = self.original_size * 1.1
+                else:
+                    self.target_size = self.original_size
+
+                self.size_multiplier += (self.target_size - self.size_multiplier) * self.size_speed
+                self.spritesheet = Spritesheet("images/shop.png", [16, 16], [0, 0], [16 * self.size_multiplier, 16 * self.size_multiplier])
+                super().animate(0, [0, 0], [0, 0])
+
                 screen.blit(self.sprite, (screen.get_width() // 2 - ((16 * self.size_multiplier) // 2), 8))
             
             if self.open:

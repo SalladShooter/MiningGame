@@ -68,8 +68,8 @@ while running:
             running = False
         if event.type == pg.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pg.mouse.get_pos()
-            shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * shop.size_multiplier) // 2), 8, 16 * shop.size_multiplier, 16 * shop.size_multiplier)
-            mouse_x, mouse_y = pg.mouse.get_pos()
+            if not shop.open:
+                shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * shop.size_multiplier) // 2), 8, 16 * shop.size_multiplier, 16 * shop.size_multiplier)
             if shop.open and shop.close_button_rect.collidepoint(mouse_x, mouse_y):
                 shop_open = not shop_open
                 shop.open = shop_open
