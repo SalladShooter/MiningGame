@@ -69,10 +69,19 @@ while running:
         if event.type == pg.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pg.mouse.get_pos()
             shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * shop.size_multiplier) // 2), 8, 16 * shop.size_multiplier, 16 * shop.size_multiplier)
-            if shop_rect.collidepoint(mouse_x, mouse_y):
+            mouse_x, mouse_y = pg.mouse.get_pos()
+            if shop.open and shop.close_button_rect.collidepoint(mouse_x, mouse_y):
                 shop_open = not shop_open
-            elif shop_open:
-                shop_open = False
+                shop.open = shop_open
+            else:
+                shop_rect = pg.Rect(screen.get_width() // 2 - ((16 * shop.size_multiplier) // 2), 8, 16 * shop.size_multiplier, 16 * shop.size_multiplier)
+                if shop_rect.collidepoint(mouse_x, mouse_y):
+                    shop_open = not shop_open
+                    shop.open = shop_open
+                    upgrade_list = list(config.upgrades)
+                    for i, upgrade in enumerate(upgrade_list):
+                        if 50 <= mouse_x <= 300 and 50 + (i * 30) <= mouse_y <= 80 + (i * 30):
+                            shop.purchase(upgrade)
 
     screen.fill("black")
     
@@ -93,7 +102,7 @@ while running:
                 wiggle_frame = 0
             if rock.check_frame([3, 1]) and not item_added:
                 mined_ore = config.ores_list[rand.randint(0, len(config.ores_list) - 1)]
-                config.ores_inventory[mined_ore] += 1
+                config.ores_inventory[mined_ore] += int(config.player_mining_multiplier)
                 last_mined_ore = mined_ore
                 inventory = config.ores_inventory
                 rock.reset_wiggle()
@@ -104,7 +113,7 @@ while running:
         pickaxe.animate(frame_duration, [0, 0], [0, 0])
 
     shop.animate()
-    shop.draw(screen, size_multiplier)
+    shop.draw(screen)
     
     tax_master.animate(frame_duration * 2.25, [0, 0], [2, 2])
     tax_master.draw(screen)
@@ -149,19 +158,7 @@ while running:
 
 
     if shop_open:
-        overlay = pg.Surface((480, 368))
-        overlay.set_alpha(255)
-        overlay.fill((0, 0, 0))
-        screen.blit(overlay, (0, 0))
-        
-        shop_text.alpha = 255
-        shop_font = "Shop Menu"
-        shop_text.render(screen, config.font, font_size, shop_font, True, [226, 243, 228], [screen.get_width() // 2 - 7*len(shop_font),  16])
-
-        close_text.alpha = 200
-        close_font = "Click Anywhere To Close"
-        close_text.render(screen, config.font, font_size, close_font, True, [226, 243, 228], [screen.get_width() // 2 - 7*len(close_font), screen.get_height() // 2])
-
+        shop.draw(screen)
 
     pg.display.flip()
     clock.tick(60)
