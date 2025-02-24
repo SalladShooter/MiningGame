@@ -156,9 +156,5 @@ while running:
         if config.ores_list[i] in ore_images:
             screen.blit(ore_images[config.ores_list[i]], (image_x, image_y))
 
-
-    if shop_open:
-        shop.draw(screen)
-
     pg.display.flip()
     clock.tick(60)
